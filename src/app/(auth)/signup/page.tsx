@@ -1,15 +1,18 @@
-
-
 import Image from "next/image"
 import Link from "next/link"
-import signupImage from "@/assets/signup.png"
+import dynamic from 'next/dynamic'
+import { Metadata } from "next"
 
+import signupImage from "@/assets/signup.png"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
+export const metadata: Metadata = {
+    title: "Sign Up",
+}
 
-export default function SignUpPage() {
+function SignUpPageContent() {
     return (
         <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
             <div className="flex items-center justify-center py-12">
@@ -26,7 +29,7 @@ export default function SignUpPage() {
                             <Input
                                 id="email"
                                 type="email"
-                                placeholder="m@example.com"
+                                placeholder="fady@cashless.com"
                                 required
                             />
                         </div>
@@ -61,11 +64,17 @@ export default function SignUpPage() {
                 <Image
                     src={signupImage}
                     alt="Image"
-                    width="1920"
-                    height="1080"
+                    width={1920}
+                    height={1080}
                     className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                 />
             </div>
         </div>
     )
+}
+
+const SignUpPageClient = dynamic(() => Promise.resolve(SignUpPageContent), { ssr: false })
+
+export default function SignUpPage() {
+    return <SignUpPageClient />
 }
